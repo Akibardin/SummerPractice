@@ -296,20 +296,34 @@ public class MainWindow extends JFrame
                 graphStep.initGraph(outEdges, outVertexes);
                 outEdgesStep = graphStep.getOutputEdges();
                 vertexesStep = graph.getVertexes();
+                graph.resultEdges.clear();
+                graph.repaint();
             }
-            System.out.println(graphStep.nextStep());
-            if (stepID < outEdgesStep.size()) {
-                Edge edge = outEdgesStep.get(stepID);
-                addLine2d(edge, vertexesStep, this.graph.resultEdges);
-                stepID++;
-                this.graph.repaint();
+            State state = graphStep.nextStep();
+            System.err.println(state);
+            if (true) {
+                if (stepID < outEdgesStep.size()) {
+                    Edge edge = outEdgesStep.get(stepID);
+                    addLine2d(edge, vertexesStep, this.graph.resultEdges);
+                    stepID++;
+                    graph.repaint();
+                } else {
+                    stepID = 0;
+                    graph.resultEdges.clear();
+                    graphStep.clear();
+                    graph.repaint();
+                }
+            } else {
+                stepID = 0;
+//                graph.resultEdges.clear();
+                graph.repaint();
             }
         } else {
             assert false;
         }
     }
 
-    private void addLine2d(Edge edge, List<Ellipse2D> vertexes, List<Line2D> lines2D){
+    private void addLine2d(Edge edge, List<Ellipse2D> vertexes, List<Line2D> lines2D) {
         char from = edge.from;
         char to = edge.to;
         double x1 = 0, y1 = 0, x2 = 0, y2 = 0;

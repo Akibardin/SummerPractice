@@ -160,8 +160,8 @@ public class MyJComponent extends JComponent {
                         (0.5 * (edge.getY1() + edge.getY2())) - 30 / 2f,
                         50, 30
                 );
-//                g2d.fill(rectangle2D);
-//                g2d.draw(rectangle2D);
+                g2d.fill(rectangle2D);
+                g2d.draw(rectangle2D);
                 g2d.setPaint(Color.RED);
                 g2d.drawString(
                         String.valueOf(outEdge.distance),

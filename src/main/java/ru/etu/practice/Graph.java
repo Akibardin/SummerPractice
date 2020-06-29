@@ -43,9 +43,11 @@ class Edge {
 public class Graph {
     private static final int SIZE = 26;
 
-    private int i = 0;
+    public int getStepID() {
+        return stepID;
+    }
 
-    private int countVertexes;
+    private int stepID = 0;
 
     private final int[][] inputGraph;
     private final int[][] outputGraph;
@@ -117,7 +119,6 @@ public class Graph {
                 inputGraph[to - 'a'][from - 'a'] = distance;
             }
         }
-        countVertexes = inputVertices.size();
     }
 
     public void printGraph() {
@@ -158,11 +159,18 @@ public class Graph {
     }
 
     public State nextStep() {
-        if (i >= inputEdges.size()) {
+        if (stepID >= inputEdges.size()) {
+            System.out.println("input edges size " + inputEdges.size());
             return State.END;
         }
-
-        Edge edge = inputEdges.get(i++);
+        System.out.println(Arrays.toString(outputVertices.toArray()));
+        if (outputVertices.size() > 0) {
+            if (outputVertices.get(0).size() == inputVertices.size()) {
+                System.out.println(inputVertices.size());
+                return State.END;
+            }
+        }
+        Edge edge = inputEdges.get(stepID++);
 
         State state = null;
         Set<Character> tempVertexes = new HashSet<>();
@@ -200,7 +208,7 @@ public class Graph {
             state = State.NEW_COMPONENT;
             outputVertices.add(tempVertexes);
         }
-        if (outputVertices.get(0).size() == countVertexes) {
+        if (outputVertices.get(0).size() == inputVertices.size()) {
             state = State.END;
         }
 //        assert state != null;
@@ -243,5 +251,11 @@ public class Graph {
 
     public void printInputEdges() {
         printEdges(inputEdges);
+    }
+
+    public void clear() {
+        outputEdges.clear();
+        outputVertices.clear();
+        stepID = 0;
     }
 }
